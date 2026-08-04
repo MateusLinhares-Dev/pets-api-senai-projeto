@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.js",
-    "seed:all": "node src/database/seeds/main.seed.js"
+    "seed:all": "node --env-file=.env src/database/seeds/main.seed.js"
   },
   "keywords": [],
   "author": "",

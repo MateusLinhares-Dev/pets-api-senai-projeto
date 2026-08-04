@@ -1,4 +1,4 @@
-import { INTERNAL_SERVER_ERROR } from "../constants/server.js";
+import { INTERNAL_SERVER_ERROR } from "../../constants/server.js";
 
 export function errorHandler(error, request, response, next) {
   console.error(error);

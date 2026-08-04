@@ -3,4 +3,4 @@ export const ROLES = {
   FUNCIONARIO: "funcionario",
 };
 
-export const ROLES_VALIDAS = Object.values(ROLES); // pendente de explicacao
+export const ROLES_VALIDAS = Object.values(ROLES);
