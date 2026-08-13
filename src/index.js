@@ -6,7 +6,7 @@ import { AppDataSource } from "./config/database_postgres.js";
 
 import { captureLog } from "./middlewares/captureLog.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { validateJwtHandler } from "./middlewares/validateJwtHandler.js";
+import { validateJwtHandler } from "./middlewares/auth/validateJwtHandler.js"
 
 import authRoutes from "./routes/auth.routes.js";
 import publicRoutes from "./routes/public.routes.js";

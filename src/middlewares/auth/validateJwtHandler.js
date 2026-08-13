@@ -13,10 +13,7 @@ export function validateJwtHandler(request, response, next) {
 
   // verificar se o token é valido
   try {
-    const conteudoDoToken = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "senai2026",
-    );
+    const conteudoDoToken = jwt.verify(token, process.env.JWT_SECRET);
 
     // colocando dentro da requisicao o perfil do usuario extraido do token
     request.usuario = {

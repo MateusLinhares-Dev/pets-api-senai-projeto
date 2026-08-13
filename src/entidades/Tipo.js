@@ -1,9 +1,8 @@
 import { EntitySchema } from "typeorm";
-import { ROLES, ROLES_VALIDAS } from "../constants/roles.js";
 
-export const UsuarioEntity = new EntitySchema({
-  name: "Usuario",
-  tableName: "usuarios",
+export const TipoEntity = new EntitySchema({
+  name: "Tipo",
+  tableName: "tipos",
   columns: {
     id: {
       type: "int",
@@ -12,24 +11,9 @@ export const UsuarioEntity = new EntitySchema({
     },
     nome: {
       type: "varchar",
-      length: 150,
-      nullable: false,
-    },
-    email: {
-      type: "varchar",
-      length: 150,
+      length: 100,
       nullable: false,
       unique: true,
-    },
-    senha: {
-      type: "varchar",
-      length: 150,
-      nullable: false,
-    },
-    role: {
-      type: "enum",
-      enum: ROLES_VALIDAS,
-      nullable: false,
     },
     criado_em: {
       type: "timestamp with time zone",
@@ -40,6 +24,13 @@ export const UsuarioEntity = new EntitySchema({
       type: "timestamp with time zone",
       nullable: false,
       default: () => "CURRENT_TIMESTAMP",
+    },
+  },
+  relations: {
+    pets: {
+      type: "one-to-many",
+      target: "Pet",
+      inverseSide: "tipo",
     },
   },
 });

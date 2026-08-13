@@ -22,6 +22,7 @@ export const usuarioSeed = async () => {
     const senhaHash = await bcrypt.hash("admin123", 12);
 
     const novoUsuario = await usuarioRepository.save({
+      id: 1,
       nome: "Administrador",
       email: emailAdmin,
       senha: senhaHash,
