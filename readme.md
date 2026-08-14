@@ -63,12 +63,8 @@ JWT_SECRET=sua_chave_secreta_aqui
 Com tudo configurado, basta iniciar a aplicação:
 
 ```bash
-npm run dev
+npm run start
 ```
-*(Ou `npm start`, dependendo de como está configurado o seu `package.json`)*
-
-O servidor iniciará e você verá a mensagem no terminal indicando que está rodando (ex: `Servidor rodando na porta 8888`).
-
 ---
 
 ## Como Testar as Rotas
@@ -81,3 +77,80 @@ Para testar as requisições (GET, POST, PUT, DELETE), recomenda-se o uso do **I
 2. Faça o login na rota `POST /auth/login`.
 3. Copie o `token` retornado.
 4. Nas demais rotas, vá na aba de Autenticação (Auth), selecione **Bearer Token** e cole o token copiado para conseguir acesso.
+
+## 6. Endpoints da API
+
+Abaixo estão os principais endpoints para você testar no Insomnia ou Postman. Lembre-se de usar o `Bearer Token` gerado no login para acessar as rotas protegidas.
+
+### Autenticação
+* **POST** `/auth/login`
+  * **Objetivo:** Gerar o token de acesso.
+  * **Body:**
+    ```json
+    {
+      "email": "seu_email@teste.com",
+      "senha": "sua_senha"
+    }
+    ```
+
+### Pets
+* **GET** `/pets`
+  * **Objetivo:** Listar todos os pets cadastrados.
+* **POST** `/pets`
+  * **Objetivo:** Cadastrar um novo pet.
+  * **Body (Exemplo Básico):**
+    ```json
+    {
+      "nome": "Caramelo",
+      "tipo_id": 1,
+      "raca_id": 1,
+      "cor_id": 1,
+      "porte": "M",
+      "sexo": "M",
+      "idade_meses": 24
+    }
+    ```
+* **DELETE** `/pets/:id`
+  * **Objetivo:** Realizar o soft delete de um pet (se ele não estiver adotado).
+
+### Lares Adotivos
+* **GET** `/lares`
+  * **Objetivo:** Listar os lares (aceita filtros como `?estado=SC` ou `?tipo=TEMPORARIO`).
+* **POST** `/lares`
+  * **Objetivo:** Cadastrar um novo lar.
+  * **Body (Exemplo Básico):**
+    ```json
+    {
+      "nome": "Lar Esperança",
+      "cep": "88330-000",
+      "estado": "SC",
+      "cidade": "Piçarras",
+      "bairro": "Centro",
+      "rua": "Av. Principal",
+      "possui_telas_protecao": true,
+      "tipo": "TEMPORARIO",
+      "telefone": "(47) 99999-8888"
+    }
+    ```
+
+### Processo de Adoção
+* **POST** `/pets/adotar`
+  * **Objetivo:** Iniciar uma adoção, vinculando um Pet a um Lar.
+  * **Body:**
+    ```json
+    {
+      "pet_id": 1,
+      "lar_adotivo_id": 1,
+      "observacao": "Iniciando a análise da adoção."
+    }
+    ```
+* **PUT** `/atualizar_status_adocao`
+  * **Objetivo:** Mudar o status de uma adoção em andamento.
+  * **Body:**
+    ```json
+    {
+      "adocao_id": 1,
+      "status": "FINALIZADO",
+      "observacao": "Adoção concluída com sucesso."
+    }
+    ```
