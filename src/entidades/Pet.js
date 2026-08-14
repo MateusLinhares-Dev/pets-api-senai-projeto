@@ -3,7 +3,6 @@ import { EntitySchema } from "typeorm";
 export const PetEntity = new EntitySchema({
   name: "Pet",
   tableName: "pets",
-  deleteDate: true,
   columns: {
     id: {
       type: "int",
@@ -67,6 +66,11 @@ export const PetEntity = new EntitySchema({
       type: "timestamp with time zone",
       nullable: false,
       default: () => "CURRENT_TIMESTAMP",
+    },
+    deletado_em: {
+      type: "timestamp with time zone",
+      nullable: true,
+      deleteDate: true,
     },
   },
   relations: {
