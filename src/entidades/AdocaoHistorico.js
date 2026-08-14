@@ -1,34 +1,25 @@
 import { EntitySchema } from "typeorm";
-import { ROLES, ROLES_VALIDAS } from "../constants/roles.js";
 
-export const UsuarioEntity = new EntitySchema({
-  name: "Usuario",
-  tableName: "usuarios",
+export const AdocaoHistoricoEntity = new EntitySchema({
+  name: "AdocaoHistorico",
+  tableName: "adocoes_historico",
   columns: {
     id: {
       type: "int",
       primary: true,
       generated: "increment",
     },
-    nome: {
-      type: "varchar",
-      length: 150,
-      nullable: false,
-    },
-    email: {
-      type: "varchar",
-      length: 150,
-      nullable: false,
-      unique: true,
-    },
-    senha: {
-      type: "varchar",
-      length: 150,
-      nullable: false,
-    },
-    role: {
+    status: {
       type: "enum",
-      enum: ROLES_VALIDAS,
+      enum: ["ANALISE", "CONCLUIDO", "FINALIZADO", "CANCELADO", "REPROVADO"],
+      nullable: false,
+    },
+    observacao: {
+      type: "text",
+      nullable: false,
+    },
+    adocao_id: {
+      type: "int",
       nullable: false,
     },
     criado_em: {
@@ -40,6 +31,13 @@ export const UsuarioEntity = new EntitySchema({
       type: "timestamp with time zone",
       nullable: false,
       default: () => "CURRENT_TIMESTAMP",
+    },
+  },
+  relations: {
+    adocao: {
+      type: "many-to-one",
+      target: "Adocao",
+      joinColumn: { name: "adocao_id" },
     },
   },
 });
