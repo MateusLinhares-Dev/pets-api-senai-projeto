@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
-    "seed:all": "node src/database/seeds/main.seed.js"
+    "start": "nodemon --env-file=.env src/index.js",
+    "seed:all": "node --env-file=.env src/database/seeds/main.seed.js"
   },
   "keywords": [],
   "author": "",

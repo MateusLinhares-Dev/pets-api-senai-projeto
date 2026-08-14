@@ -1,17 +1,19 @@
 import { Router } from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
 import { AppDataSource } from "../config/database_postgres.js";
+
 import { UsuarioEntity } from "../entidades/Usuario.js";
 
 import { BAD_REQUEST_STATUS, OK_STATUS } from "../constants/server.js";
-
-import jwt from "jsonwebtoken"; // lib que vai gerar o token do usuario
-import bcrypt from "bcrypt";
 
 const publicRoutes = new Router();
 
 const usuarioRepository = AppDataSource.getRepository(UsuarioEntity);
 
-publicRoutes.post("/auth/login", async (request, response) => {
+publicRoutes.post("/auth/login",
+  async (request, response) => {
   // 1 - Pegar o body e armezanar na variavel dados
   const dados = request.body;
 

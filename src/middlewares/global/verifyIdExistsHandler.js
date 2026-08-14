@@ -1,6 +1,6 @@
 // src/middlewares/carregarEntidade.js
-import { NOT_FOUND_ERROR } from "../constants/server.js";
-import { AppDataSource } from "../config/database_postgres.js";
+import { NOT_FOUND_ERROR } from "../../constants/server.js";
+import { AppDataSource } from "../../config/database_postgres.js";
 
 export const verifyIdExistsHandler =
   (entity, nomeAmigavel) => async (request, response, next) => {
