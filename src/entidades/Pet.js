@@ -3,6 +3,7 @@ import { EntitySchema } from "typeorm";
 export const PetEntity = new EntitySchema({
   name: "Pet",
   tableName: "pets",
+  deleteDate: true,
   columns: {
     id: {
       type: "int",

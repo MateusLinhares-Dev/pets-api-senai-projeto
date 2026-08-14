@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { DataSource } from "typeorm";
 import { UsuarioEntity } from "../entidades/Usuario.js";
 import { PetEntity } from "../entidades/Pet.js";

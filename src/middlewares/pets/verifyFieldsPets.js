@@ -1,29 +1,37 @@
+import { AppDataSource } from "../../config/database_postgres.js";
+import { TipoEntity } from "../../entidades/Tipo.js";
+import { RacaEntity } from "../../entidades/Raca.js";
+import { CorEntity } from "../../entidades/Cor.js";
 import { BAD_REQUEST_STATUS } from "../../constants/server.js";
-import { PortesPets } from "../../constants/petsPorte.js";
-import { SexoPets } from "../../constants/petsSexo.js";
 
-export function verifyFieldsPets(req, res, next){
-    const { nome, tipo_id, raca_id, cor_id, porte, sexo, foto_url, historia, comportamento, observacoes_extras, idade_meses } = req.body;
+export const verifyFieldsPets = async (req, res, next) => {
+  const { nome, tipo_id, raca_id, cor_id, porte, sexo } = req.body;
 
-    if (!nome || !tipo_id || !raca_id || !cor_id || !porte) {
-        return res.status(BAD_REQUEST_STATUS).json({ error: "Campos obrigatórios não preenchidos" });
-    }
+  if (!nome || !tipo_id || !raca_id || !cor_id || !porte) {
+    return res.status(BAD_REQUEST_STATUS).json({ error: "Campos obrigatórios ausentes." });
+  }
 
-    if (porte && !Object.values(PortesPets).includes(porte)) {
-        return res.status(BAD_REQUEST_STATUS).json({ error: "Porte inválido. Deve ser P, M ou G" });
-    }
+  if (!["P", "M", "G"].includes(porte)) {
+    return res.status(BAD_REQUEST_STATUS).json({ error: "O porte deve ser P, M ou G." });
+  }
 
-    if (sexo && !Object.values(SexoPets).includes(sexo)) {
-        return res.status(BAD_REQUEST_STATUS).json({ error: "Sexo inválido. Deve ser M ou F" });
-    }
+  if (sexo && !["M", "F"].includes(sexo)) {
+    return res.status(BAD_REQUEST_STATUS).json({ error: "O sexo deve ser M ou F." });
+  }
 
-    if (idade_meses && !Number.isInteger(idade_meses)) {
-        return res.status(BAD_REQUEST_STATUS).json({ error: "Idade em meses deve ser um número inteiro" });
-    }
+  const tipoRepo = AppDataSource.getRepository(TipoEntity);
+  const racaRepo = AppDataSource.getRepository(RacaEntity);
+  const corRepo = AppDataSource.getRepository(CorEntity);
 
-    if (observacoes_extras && observacoes_extras.length > 350 || typeof observacoes_extras !== "string") {
-        return res.status(BAD_REQUEST_STATUS).json({ error: "Observações extras deve ser uma string com no máximo 350 caracteres" });
-    }
+  const [tipoExiste, racaExiste, corExiste] = await Promise.all([
+    tipoRepo.existsBy({ id: tipo_id }),
+    racaRepo.existsBy({ id: raca_id }),
+    corRepo.existsBy({ id: cor_id }),
+  ]);
 
-    next();
-}
+  if (!tipoExiste || !racaExiste || !corExiste) {
+    return res.status(BAD_REQUEST_STATUS).json({ error: "Tipo, raça ou cor informados são inválidos." });
+  }
+
+  next();
+};
